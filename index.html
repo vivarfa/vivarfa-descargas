@@ -20,7 +20,7 @@
         .brand-section { display: flex; align-items: center; gap: 2rem; }
         .logo-container { width: 80px; height: 80px; background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; animation: logoFloat 3s ease-in-out infinite; box-shadow: var(--shadow-primary); cursor: pointer; }
         .logo-container::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent); animation: logoShine 4s linear infinite; }
-        .logo-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; z-index: 2; } /* Estilo para tu imagen */
+        .logo-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; z-index: 2; }
         .main-title { font-size: 3rem; font-weight: 900; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none; letter-spacing: -0.02em; text-decoration: none !important; }
         .subtitle { font-size: 1.2rem; font-weight: 500; color: var(--text-muted); margin-top: 0.5rem; }
         #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--gradient-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.5s ease-out; }
@@ -63,6 +63,8 @@
         @media (max-width: 768px) { .header { flex-direction: column; gap: 1rem; text-align: center; } .brand-section { flex-direction: column; gap: 1rem; } .main-title { font-size: 2rem; } .subtitle { font-size: 1rem; } #folder-list { grid-template-columns: 1fr; } .folder-item { min-height: 250px; } .folder-content { padding: 1.5rem; } .logo-container { width: 60px; height: 60px; } }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9975952999842017"
+     crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="loading">
@@ -75,11 +77,9 @@
         <header class="header">
             <div class="brand-section">
                 <a class="logo-container" onclick="loadRootFolders(); return false;" title="Volver al inicio de los packs">
-                    <!-- AJUSTE DEL LOGO: Reemplaza 'vivarfa.png' con la ruta a tu imagen -->
                     <img src="vivarfa.png" alt="VIVARFA Logo" class="logo-img">
                 </a>
                 <div>
-                    <!-- AJUSTE DEL ENLACE: Ahora el título principal es un enlace -->
                     <a href="https://www.vivarfa.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
                         <h1 class="main-title">VIVARFA VIP MUSIC</h1>
                     </a>
@@ -95,6 +95,25 @@
             <button id="back-button"><i class="fas fa-arrow-left"></i> Volver</button>
             <a id="download-all-btn" target="_blank"><i class="fas fa-archive"></i> Descargar Pack Completo</a>
         </div>
+        
+        <!-- ======================================================= -->
+        <!--          AQUÍ VA EL CÓDIGO DE TU BLOQUE DE ANUNCIO       -->
+        <!-- ======================================================= -->
+        <div style="margin: 2rem 0; text-align: center; min-height: 100px;">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9975952999842017"
+                 crossorigin="anonymous"></script>
+            <!-- Banner Superior Descargas -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-9975952999842017"
+                 data-ad-slot="1164237347"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <!-- ======================================================= -->
         
         <ul id="folder-list" class="item-list"></ul>
         <ul id="file-list" class="item-list" style="display: none;"></ul>
@@ -160,7 +179,6 @@
         function goBack() {
             if (folderHistory.length === 0) return;
             const previous = folderHistory.pop();
-            // AJUSTE CLAVE: Ahora "Volver" también activa la animación de carga.
             loadView(previous.id, previous.name, true);
         }
 
@@ -223,7 +241,6 @@
             }, 50);
 
             backButton.style.display = folderHistory.length > 0 ? 'block' : 'none';
-            // AJUSTE DEL BOTÓN: Solo se muestra si NO estamos en la carpeta raíz
             downloadAllBtn.style.display = currentFolderId !== rootFolderId ? 'block' : 'none';
             downloadAllBtn.href = `https://drive.google.com/drive/folders/${data.currentFolderId}`;
         }

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIVARFA VIP MUSIC - Packs Free Exclusivos</title>
+    <style>
+        :root {
+            --bg-dark: #0a0e1a; --bg-card: #1a1f2e; --bg-secondary: #252b3d; --text-light: #f1f5f9;
+            --text-muted: #94a3b8; --accent-primary: #06d6a0; --accent-secondary: #118ab2; --accent-tertiary: #ffd60a;
+            --gradient-bg: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+            --shadow-primary: 0 10px 30px rgba(6, 214, 160, 0.15); --shadow-secondary: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--gradient-bg); color: var(--text-light); line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+        .container { max-width: 1400px; margin: auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 2px solid var(--bg-secondary); margin-bottom: 3rem; }
+        .brand-section { display: flex; align-items: center; gap: 2rem; }
+        .logo-container { width: 80px; height: 80px; background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; animation: logoFloat 3s ease-in-out infinite; box-shadow: var(--shadow-primary); cursor: pointer; }
+        .logo-container::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent); animation: logoShine 4s linear infinite; }
+        .logo-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; z-index: 2; } /* Estilo para tu imagen */
+        .main-title { font-size: 3rem; font-weight: 900; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none; letter-spacing: -0.02em; text-decoration: none !important; }
+        .subtitle { font-size: 1.2rem; font-weight: 500; color: var(--text-muted); margin-top: 0.5rem; }
+        #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--gradient-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.5s ease-out; }
+        .loading-spinner { width: 60px; height: 60px; border: 3px solid var(--bg-secondary); border-top: 3px solid var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 2rem; }
+        .loading-text { font-size: 1.4rem; font-weight: 600; color: var(--text-light); margin-bottom: 1rem; }
+        .loading-subtext { font-size: 1rem; color: var(--text-muted); animation: pulse 2s ease-in-out infinite; text-align: center; max-width: 80%; }
+        #controls-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; min-height: 48px; }
+        #back-button, #download-all-btn { background: linear-gradient(45deg, var(--bg-card), var(--bg-secondary)); color: var(--text-light); padding: 12px 24px; border: 1px solid var(--bg-secondary); border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: none; box-shadow: var(--shadow-secondary); font-family: inherit; }
+        #back-button:hover { background: linear-gradient(45deg, var(--bg-secondary), #3a4458); transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+        #download-all-btn { background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); border-color: var(--accent-primary); color: white; }
+        #download-all-btn:hover { background: linear-gradient(45deg, var(--accent-secondary), #0d7d9a); transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-primary), var(--shadow-secondary); }
+        .item-list { list-style: none; padding: 0; display: grid; gap: 2rem; }
+        #folder-list { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+        .list-item { border: 2px solid transparent; border-radius: 24px; padding: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; overflow: hidden; position: relative; box-shadow: var(--shadow-secondary); backdrop-filter: blur(10px); }
+        .list-item:hover { transform: translateY(-12px) rotateX(5deg); box-shadow: var(--shadow-primary), 0 25px 50px rgba(0,0,0,0.4); border-color: var(--accent-primary); }
+        .folder-item { text-align: center; position: relative; min-height: 300px; display: flex; flex-direction: column; justify-content: flex-end; background: var(--bg-card); overflow: hidden; animation: fadeInUp 0.6s ease-out; }
+        .folder-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: inherit; z-index: 1; }
+        .folder-item::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(26, 31, 46, 0.3) 0%, rgba(26, 31, 46, 0.7) 50%, rgba(26, 31, 46, 0.95) 100%); z-index: 2; }
+        .geometric-pattern { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; opacity: 0.3; }
+        .folder-content { position: relative; z-index: 3; padding: 2rem; }
+        .folder-item .icon { font-size: 3.5rem; color: var(--accent-primary); margin-bottom: 1rem; text-shadow: 0 0 20px rgba(6, 214, 160, 0.5); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); animation: iconPulse 2s ease-in-out infinite; }
+        .folder-item .name { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); line-height: 1.2; }
+        .folder-item .details { font-size: 1rem; color: var(--text-muted); font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .file-item { display: flex; align-items: center; gap: 1.5rem; cursor: default; padding: 1.5rem; background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%); }
+        .file-item .icon { font-size: 2rem; color: var(--accent-primary); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .file-item .name { flex-grow: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1.1rem; }
+        .file-item .download-btn { background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; white-space: nowrap; box-shadow: var(--shadow-primary); }
+        .file-item .download-btn:hover { background: linear-gradient(45deg, var(--accent-secondary), #0d7d9a); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(6, 214, 160, 0.3); }
+        .btn-premium { background: linear-gradient(45deg, var(--accent-tertiary), #ffc300); color: #1a1f2e; padding: 12px 24px; border-radius: 12px; font-weight: 700; transition: all 0.3s ease; text-decoration: none; }
+        .btn-premium:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 10px 25px rgba(255, 214, 10, 0.3); }
+        @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes logoShine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        @keyframes iconPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .folder-item { animation: fadeInUp 0.6s ease-out; animation-fill-mode: both; }
+        .folder-item:nth-child(n+1) { animation-delay: calc(0.05s * (var(--i, 1) - 1)); }
+        .hidden { opacity: 0 !important; pointer-events: none; }
+        @media (max-width: 768px) { .header { flex-direction: column; gap: 1rem; text-align: center; } .brand-section { flex-direction: column; gap: 1rem; } .main-title { font-size: 2rem; } .subtitle { font-size: 1rem; } #folder-list { grid-template-columns: 1fr; } .folder-item { min-height: 250px; } .folder-content { padding: 1.5rem; } .logo-container { width: 60px; height: 60px; } }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">VIVARFA VIP MUSIC</div>
+        <div id="loading-subtext" class="loading-subtext">Tu Ritmo, Tu Estilo, Tu Música...</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="brand-section">
+                <a class="logo-container" onclick="loadRootFolders(); return false;" title="Volver al inicio de los packs">
+                    <!-- AJUSTE DEL LOGO: Reemplaza 'vivarfa.png' con la ruta a tu imagen -->
+                    <img src="vivarfa.png" alt="VIVARFA Logo" class="logo-img">
+                </a>
+                <div>
+                    <!-- AJUSTE DEL ENLACE: Ahora el título principal es un enlace -->
+                    <a href="https://www.vivarfa.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                        <h1 class="main-title">VIVARFA VIP MUSIC</h1>
+                    </a>
+                    <p id="main-subtitle" class="subtitle">Packs Free Esperando Por Ti</p>
+                </div>
+            </div>
+            <a href="https://www.vivarfa.com/membresias" target="_blank" rel="noopener noreferrer" class="btn-premium">
+                <i class="fas fa-crown"></i> Comprar Membresía
+            </a>
+        </header>
+
+        <div id="controls-bar">
+            <button id="back-button"><i class="fas fa-arrow-left"></i> Volver</button>
+            <a id="download-all-btn" target="_blank"><i class="fas fa-archive"></i> Descargar Pack Completo</a>
+        </div>
+        
+        <ul id="folder-list" class="item-list"></ul>
+        <ul id="file-list" class="item-list" style="display: none;"></ul>
+    </div>
+
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbxoykeSAThO3q36tta49-BGU1fbDpD1eHw6v0HltNuUwAoADjCXYp8JRy4FXyx_l-eg/exec';
+        const rootFolderId = "1ZTgkPuwUQBbt1Dor409S5zh2E_7jj90q";
+        const loadingMessages = [ "Tu pasaporte directo al éxito musical.", "Impulsando tu talento al máximo.", "Donde la calidad se encuentra con la pasión.", "Tu mejor fuente de audio y video.", "Elevando cada uno de tus sets de DJ.", "Creando el futuro del sonido profesional hoy.", "Tu destino premium para música y visuales.", "Descubre el verdadero poder musical.", "Acceso ilimitado a un universo de ritmos.", "Para DJs y VJs.", "Mezcla sin límites con el contenido free.", "Diseñado para DJs y VJs.", "Para los profesionales que exigen lo mejor.", "DJs y VJs de élite nos eligen siempre.", "Contenido y Calidad.", "Calidad de estudio al alcance de tus manos.", "Membresías y Beneficios.", "Packs Gratis.", "Packs Free.", "Packs Free esperando por ti.", "Tu Sonido Maestro.", "La Música Que Necesitas.", "Eleva Tu Arte.", "Ritmo y Visión.", "Poder Ilimitado.", "El Futuro del Audio.", "Tu Esencia Musical.", "Calidad Inigualable.", "Domina la Pista.", "Pura Potencia.", "La Élite del Sonido.", "Aquí Empieza Todo.", "Tu Fuente Exclusiva.", "Vibra Con Nosotros.", "Simplemente Lo Mejor.", "Pistas Que Hacen Vibrar.", "El Arsenal del DJ.", "Mezcla Sin Frenos.", "Sets Legendarios.", "Dominando La Mezcla.", "Audio Top.", "Para El DJ De Verdad.", "Impulsa Tus Sesiones.", "Libera Tu Creatividad.", "Visuales Impactantes.", "La Visión Perfecta.", "Video de Élite.", "Ilumina Tu Escenario.", "Crea Atmósferas.", "Experiencias Visuales.", "El Poder Visual.", "Imágenes Que Conectan.", "Tu Lienzo Digital.", "Vibrando con Imágenes.", "Audio y Video Sin Límites.", "Ritmo y Visual.", "Sonido y Luz.", "Tu Dúo Perfecto.", "La Fusión Ideal.", "Experiencias Completas.", "Audio + Visual.", "Todo lo que Necesitas.", "Completa Tu Show.", "El Combo Ganador.", "¡Packs Gratis Disponibles!", "Descarga Tu Pack Gratis.", "Packs Gratis Aquí.", "Tu Pack Gratis Ahora.", "Packs Free para Ti.", "Pruébanos Gratis.", "Empieza con Packs Free.", "Tu Regalo Gratuito.", "Packs Free Exclusivos.", "Descarga Tus Free Packs.", "Gratis Para Empezar.", "Tu Muestra Gratis.", "Packs Free Incluidos.", "¡Con Pack de Regalo!", "Packs Free al Instante.", "Tu Primer Pack Gratuito.", "Obtén Tu Free Pack.", "Packs Gratis, Siempre.", "Los Mejores Free Packs." ];
+
+        // --- ELEMENTOS DEL DOM ---
+        const loadingDiv = document.getElementById('loading');
+        const loadingSubtext = document.getElementById('loading-subtext');
+        const folderList = document.getElementById('folder-list');
+        const fileList = document.getElementById('file-list');
+        const mainSubtitle = document.getElementById('main-subtitle');
+        const backButton = document.getElementById('back-button');
+        const downloadAllBtn = document.getElementById('download-all-btn');
+
+        let folderHistory = [];
+        let currentFolderId = rootFolderId;
+
+        // --- FUNCIONES DE UTILIDAD ---
+        function getRandomMessage() { return loadingMessages[Math.floor(Math.random() * loadingMessages.length)]; }
+        function simpleHash(str) { let hash = 0; for (let i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash &= hash; } return Math.abs(hash); }
+        function generatePackGradient(name) { const h = simpleHash(name); return `linear-gradient(135deg, hsl(${(h%360)}, 60%, 25%) 0%, hsl(${(h+120)%360}, 60%, 35%) 100%)`; }
+
+        // --- FUNCIONES DE CARGA Y NAVEGACIÓN ---
+        async function loadView(folderId, folderName, isNavigating) {
+            if (isNavigating) {
+                showLoading(true);
+            }
+            try {
+                const url = folderId === rootFolderId ? apiUrl : `${apiUrl}?folderId=${folderId}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.status === 'success') {
+                    currentFolderId = folderId;
+                    updateUI(data, folderName);
+                } else {
+                    alert('Error al cargar: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                alert('Error de conexión con el servidor.');
+            } finally {
+                if (isNavigating) {
+                    setTimeout(() => showLoading(false), 500); 
+                }
+            }
+        }
+        
+        function loadRootFolders() {
+            folderHistory = [];
+            loadView(rootFolderId, "Packs Free Esperando Por Ti", true);
+        }
+
+        function handleFolderClick(folderId, folderName) {
+            folderHistory.push({ id: currentFolderId, name: mainSubtitle.textContent });
+            loadView(folderId, folderName, true);
+        }
+
+        function goBack() {
+            if (folderHistory.length === 0) return;
+            const previous = folderHistory.pop();
+            // AJUSTE CLAVE: Ahora "Volver" también activa la animación de carga.
+            loadView(previous.id, previous.name, true);
+        }
+
+        // --- FUNCIONES DE LA INTERFAZ ---
+        function updateUI(data, folderName) {
+            mainSubtitle.textContent = folderName;
+            folderList.innerHTML = '';
+            fileList.innerHTML = '';
+            folderList.style.display = 'grid';
+            fileList.style.display = 'grid';
+            
+            folderList.style.opacity = 0;
+            fileList.style.opacity = 0;
+
+            const folders = data.items.filter(item => item.type === 'folder');
+            const files = data.items.filter(item => item.type === 'file');
+
+            if (folders.length > 0) {
+                folders.sort((a, b) => a.name.localeCompare(b.name)).forEach((folder, i) => {
+                    const li = document.createElement('li');
+                    li.className = 'list-item folder-item';
+                    li.style.setProperty('--i', i + 1);
+                    li.style.background = generatePackGradient(folder.name);
+                    li.onclick = () => handleFolderClick(folder.id, folder.name);
+                    li.innerHTML = `<div class="folder-content">
+                        <div class="icon"><i class="fas fa-compact-disc"></i></div>
+                        <div class="name">${folder.name}</div>
+                        <div class="details">Abrir Pack</div>
+                    </div>`;
+                    folderList.appendChild(li);
+                });
+            } else {
+                 folderList.style.display = 'none';
+            }
+
+            if (files.length > 0) {
+                 fileList.style.display = 'grid';
+                 files.sort((a, b) => a.name.localeCompare(b.name)).forEach(file => {
+                    const li = document.createElement('li');
+                    li.className = 'list-item file-item';
+                    const iconClass = file.fileType === 'audio' ? 'fa-music' : (file.fileType === 'video' ? 'fa-video' : 'fa-file-alt');
+                    li.innerHTML = `
+                        <i class="fas ${iconClass} icon"></i>
+                        <div class="name">${file.name}</div>
+                        <a href="${file.fileUrl}" class="download-btn" download><i class="fas fa-download"></i> Descargar</a>`;
+                    fileList.appendChild(li);
+                });
+            } else {
+                fileList.style.display = 'none';
+            }
+
+            if (folders.length === 0 && files.length === 0) {
+                fileList.style.display = 'grid';
+                fileList.innerHTML = '<li class="list-item file-item" style="justify-content:center; cursor: default;">Este pack no contiene archivos ni carpetas.</li>';
+            }
+            
+            setTimeout(() => {
+                folderList.style.opacity = 1;
+                fileList.style.opacity = 1;
+            }, 50);
+
+            backButton.style.display = folderHistory.length > 0 ? 'block' : 'none';
+            // AJUSTE DEL BOTÓN: Solo se muestra si NO estamos en la carpeta raíz
+            downloadAllBtn.style.display = currentFolderId !== rootFolderId ? 'block' : 'none';
+            downloadAllBtn.href = `https://drive.google.com/drive/folders/${data.currentFolderId}`;
+        }
+        
+        function showLoading(show) {
+            if (show) {
+                loadingSubtext.textContent = getRandomMessage();
+                loadingDiv.classList.remove('hidden');
+            } else {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRootFolders();
+        });
+        backButton.addEventListener('click', goBack);
+    </script>
+</body>
+</html>

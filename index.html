@@ -5,229 +5,423 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIVARFA VIP MUSIC - Packs Free Exclusivos</title>
     <link rel="icon" type="image/png" href="vivarfa.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- El script principal de AdSense solo se necesita una vez en el <head> -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9975952999842017" crossorigin="anonymous"></script>
     <style>
         :root {
-            --bg-dark: #0a0e1a; --bg-card: #1a1f2e; --bg-secondary: #252b3d; --text-light: #f1f5f9;
-            --text-muted: #94a3b8; --accent-primary: #06d6a0; --accent-secondary: #118ab2; --accent-tertiary: #ffd60a;
-            --gradient-bg: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
-            --shadow-primary: 0 10px 30px rgba(6, 214, 160, 0.15); --shadow-secondary: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--gradient-bg); color: var(--text-light); line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
-        
-        /* === ESTRUCTURA PRINCIPAL CON ANUNCIOS LATERALES === */
-        .page-wrapper {
-            display: flex;
-            justify-content: center;
-        }
-        .ad-sidebar {
-            width: 160px; /* Ancho estándar para skyscraper */
-            position: sticky;
-            top: 20px;
-            margin: 0 20px;
-            align-self: flex-start; /* Para que se quede arriba */
-        }
-        .main-content {
-            max-width: 1100px;
-            width: 100%;
-        }
-        /* Ocultar anuncios laterales en pantallas pequeñas */
-        @media (max-width: 1500px) {
-            .ad-sidebar { display: none; }
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-secondary: #334155;
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent-primary: #06d6a0;
+            --accent-secondary: #118ab2;
+            --accent-tertiary: #ffd60a;
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 2px solid var(--bg-secondary); margin-bottom: 1.5rem; }
-        .brand-section { display: flex; align-items: center; gap: 2rem; }
-        .logo-container { width: 80px; height: 80px; background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; animation: logoFloat 3s ease-in-out infinite; box-shadow: var(--shadow-primary); cursor: pointer; }
-        .logo-container::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent); animation: logoShine 4s linear infinite; }
-        .logo-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; z-index: 2; }
-        .main-title { font-size: 3rem; font-weight: 900; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none; letter-spacing: -0.02em; text-decoration: none !important; }
-        .subtitle { font-size: 1.2rem; font-weight: 500; color: var(--text-muted); margin-top: 0.5rem; }
-        #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--gradient-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.5s ease-out; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: var(--text-light); min-height: 100vh; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 4px; }
+        
+        /* --- ESTRUCTURA DE 3 COLUMNAS CON ANUNCIOS --- */
+        .page-wrapper { display: flex; justify-content: center; min-height: 100vh; padding: 0 20px; }
+        .ad-sidebar { width: 160px; /* Ancho estándar para banners verticales */ flex-shrink: 0; position: sticky; top: 20px; align-self: flex-start; height: calc(100vh - 40px); }
+        .main-content { max-width: 1200px; width: 100%; padding: 0 20px; }
+
+        /* Ocultar anuncios laterales en pantallas más pequeñas */
+        @media (max-width: 1600px) {
+            .ad-sidebar { display: none; }
+            .main-content { padding: 0; }
+        }
+
+        /* Loading Screen */
+        #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.5s ease-out; }
         .loading-spinner { width: 60px; height: 60px; border: 3px solid var(--bg-secondary); border-top: 3px solid var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 2rem; }
         .loading-text { font-size: 1.4rem; font-weight: 600; color: var(--text-light); margin-bottom: 1rem; }
         .loading-subtext { font-size: 1rem; color: var(--text-muted); animation: pulse 2s ease-in-out infinite; text-align: center; max-width: 80%; }
-        #controls-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; min-height: 48px; }
-        #back-button, #download-all-btn { background: linear-gradient(45deg, var(--bg-card), var(--bg-secondary)); color: var(--text-light); padding: 12px 24px; border: 1px solid var(--bg-secondary); border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: none; box-shadow: var(--shadow-secondary); font-family: inherit; }
-        #back-button:hover { background: linear-gradient(45deg, var(--bg-secondary), #3a4458); transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
-        #download-all-btn { background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); border-color: var(--accent-primary); color: white; }
-        #download-all-btn:hover { background: linear-gradient(45deg, var(--accent-secondary), #0d7d9a); transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-primary), var(--shadow-secondary); }
-        .item-list { list-style: none; padding: 0; display: grid; gap: 2rem; }
-        #folder-list { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-        .list-item { border: 2px solid transparent; border-radius: 24px; padding: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; overflow: hidden; position: relative; box-shadow: var(--shadow-secondary); backdrop-filter: blur(10px); }
-        .list-item:hover { transform: translateY(-12px) rotateX(5deg); box-shadow: var(--shadow-primary), 0 25px 50px rgba(0,0,0,0.4); border-color: var(--accent-primary); }
-        .folder-item { text-align: center; position: relative; min-height: 300px; display: flex; flex-direction: column; justify-content: flex-end; background: var(--bg-card); overflow: hidden; animation: fadeInUp 0.6s ease-out; }
-        .folder-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: inherit; z-index: 1; }
-        .folder-item::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(26, 31, 46, 0.3) 0%, rgba(26, 31, 46, 0.7) 50%, rgba(26, 31, 46, 0.95) 100%); z-index: 2; }
-        .geometric-pattern { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; opacity: 0.3; }
-        .folder-content { position: relative; z-index: 3; padding: 2rem; }
-        .folder-item .icon { font-size: 3.5rem; color: var(--accent-primary); margin-bottom: 1rem; text-shadow: 0 0 20px rgba(6, 214, 160, 0.5); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); animation: iconPulse 2s ease-in-out infinite; }
-        .folder-item .name { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); line-height: 1.2; }
-        .folder-item .details { font-size: 1rem; color: var(--text-muted); font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
-        .file-item { display: flex; align-items: center; gap: 1.5rem; cursor: default; padding: 1.5rem; background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%); }
-        .file-item .icon { font-size: 2rem; color: var(--accent-primary); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-        .file-item .name { flex-grow: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1.1rem; }
-        .file-item .download-btn { background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; white-space: nowrap; box-shadow: var(--shadow-primary); }
-        .file-item .download-btn:hover { background: linear-gradient(45deg, var(--accent-secondary), #0d7d9a); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(6, 214, 160, 0.3); }
-        .btn-premium { background: linear-gradient(45deg, var(--accent-tertiary), #ffc300); color: #1a1f2e; padding: 12px 24px; border-radius: 12px; font-weight: 700; transition: all 0.3s ease; text-decoration: none; }
-        .btn-premium:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 10px 25px rgba(255, 214, 10, 0.3); }
-        @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes logoShine { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Header con animaciones */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-bottom: 2px solid var(--bg-secondary); margin-bottom: 2rem; gap: 1rem; }
+        .brand-section { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+        .logo-container { width: 70px; height: 70px; background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); border-radius: 16px; display: flex; align-items: center; justify-content: center; animation: logoFloat 3s ease-in-out infinite; transition: var(--transition); }
+        .logo-container:hover { transform: scale(1.1); box-shadow: 0 8px 25px rgba(6, 214, 160, 0.2); }
+        .logo-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; }
+        .main-title { font-size: 2.5rem; font-weight: 900; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; transition: var(--transition); }
+        .main-title:hover { transform: scale(1.02); text-shadow: 0 0 10px rgba(6, 214, 160, 0.3); }
+        .subtitle { font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-top: 0.25rem; }
+        .main-nav { display: flex; gap: 1rem; flex-wrap: nowrap; justify-content: flex-end; align-items: center; }
+        .nav-button { display: flex; align-items: center; gap: 0.5rem; padding: 12px 20px; border-radius: 10px; font-weight: 600; text-decoration: none; transition: var(--transition); border: 2px solid transparent; font-size: 0.9rem; white-space: nowrap; }
+        .nav-button:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .nav-button.primary { background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); color: white; }
+        .nav-button.premium { background: linear-gradient(45deg, var(--accent-tertiary), #ffc300); color: #1a1f2e; }
+        .nav-button.secondary { background: var(--bg-card); color: var(--text-light); border-color: var(--bg-secondary); }
+        /* Controles con nuevo título */
+        .controls-section { background: var(--bg-card); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--bg-secondary); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); text-align: center; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; animation: fadeInUp 0.5s 0.2s both; }
+        .search-container { position: relative; }
+        .search-input { width: 100%; padding: 12px 16px 12px 48px; background: var(--bg-dark); border: 2px solid var(--bg-secondary); border-radius: 12px; color: var(--text-light); transition: var(--transition); outline: none; }
+        .search-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(6, 214, 160, 0.1); }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .filters-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: 1rem; margin-top: 1.5rem; }
+        .filter-select { padding: 8px 12px; background: var(--bg-dark); border: 1px solid var(--bg-secondary); border-radius: 8px; color: var(--text-light); font-size: 0.9rem; outline: none; transition: var(--transition); }
+        .filter-select:hover { border-color: var(--accent-primary); }
+        
+        /* Estadísticas con animación */
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        .stats-item { text-align: center; background: var(--bg-card); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--bg-secondary); transition: var(--transition); }
+        .stats-item:hover { transform: translateY(-5px); border-color: var(--accent-primary); }
+        .stats-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); }
+        .stats-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Navegación y Cursor Corregido */
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; min-height: 44px; }
+        .breadcrumb { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 1.1rem; flex-wrap: wrap; user-select: none; }
+        .breadcrumb a { color: var(--accent-primary); text-decoration: none; transition: var(--transition); cursor: pointer; }
+        .breadcrumb a:hover { color: var(--accent-secondary); text-shadow: 0 0 5px var(--accent-secondary); }
+        .breadcrumb-current, .breadcrumb-separator { cursor: default; }
+        .download-all-btn { display: flex; align-items: center; gap: 0.5rem; padding: 10px 18px; border-radius: 10px; font-weight: 600; text-decoration: none; background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary)); color: white; transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(10px); pointer-events: none; }
+        .download-all-btn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .download-all-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 4px 15px rgba(6, 214, 160, 0.2); }
+        .list-header { display: flex; justify-content: space-between; padding: 0.5rem 1.5rem; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; border-bottom: 2px solid var(--bg-secondary); margin-bottom: 1rem; transition: opacity 0.3s; }
+        
+        /* Lista con Efecto Zoom y Animaciones de Iconos */
+        .content-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; }
+        .list-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: var(--bg-card); border: 1px solid var(--bg-secondary); border-radius: var(--border-radius); transition: var(--transition); text-decoration: none; color: var(--text-light); animation: fadeInUp 0.5s ease-out both; }
+        .list-item.folder-item { cursor: pointer; }
+        .list-item:hover { background: var(--bg-secondary); border-color: var(--accent-primary); transform: translateY(-5px) scale(1.03); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .list-item:active { transform: translateY(0) scale(0.99); transition-duration: 0.1s; }
+        .item-info { display: flex; align-items: center; gap: 1rem; flex-grow: 1; min-width: 0; }
+        .item-icon-wrapper { position: relative; width: 30px; height: 1.5rem; font-size: 1.5rem; color: var(--accent-primary); }
+        .item-icon-wrapper .fas { position: absolute; left: 0; top: 0; transition: opacity 0.2s ease-in-out, transform 0.2s; }
+        .item-icon-wrapper .icon-opened { opacity: 0; transform: rotate(-15deg); }
+        .folder-item:hover .icon-closed { opacity: 0; transform: rotate(15deg); }
+        .folder-item:hover .icon-opened { opacity: 1; transform: rotate(0); }
+        .item-icon.icon-music { animation: none; }
+        .list-item:hover .item-icon.icon-music { animation: musicPulse 1.5s infinite ease-in-out; }
+        .item-details .name { font-weight: 600; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-actions { display: flex; align-items: center; gap: 1.5rem; padding-left: 1rem; }
+        .item-date { color: var(--text-muted); font-size: 0.9rem; white-space: nowrap; }
+        .download-btn-item { color: var(--text-muted); font-size: 1.2rem; transition: var(--transition); }
+        .download-btn-item:hover { color: var(--accent-primary); transform: scale(1.2); }
+
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); opacity: 0; transition: opacity 0.5s; pointer-events: none;}
+        .empty-state.visible { opacity: 1; pointer-events: auto; }
+        
+        /* WhatsApp Button animado */
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; z-index: 1000; transition: var(--transition); animation: whatsappPulse 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1); }
+        .whatsapp-float:hover { animation-play-state: paused; transform: scale(1.15); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5); }
+        .whatsapp-tooltip { position: absolute; right: 75px; top: 50%; transform: translateY(-50%); background: #1e293b; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .whatsapp-float:hover .whatsapp-tooltip { opacity: 1; visibility: visible; }
+        
+        /* Animaciones Keyframes */
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        @keyframes iconPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .folder-item { animation: fadeInUp 0.6s ease-out; animation-fill-mode: both; }
-        .folder-item:nth-child(n+1) { animation-delay: calc(0.05s * (var(--i, 1) - 1)); }
-        .hidden { opacity: 0 !important; pointer-events: none; }
-        @media (max-width: 768px) { .header { flex-direction: column; gap: 1rem; text-align: center; } .brand-section { flex-direction: column; gap: 1rem; } .main-title { font-size: 2rem; } .subtitle { font-size: 1rem; } #folder-list { grid-template-columns: 1fr; } .folder-item { min-height: 250px; } .folder-content { padding: 1.5rem; } .logo-container { width: 60px; height: 60px; } }
+        @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes whatsappPulse { 0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); } }
+        @keyframes musicPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        @media (max-width: 768px) {
+            .header, .brand-section { flex-direction: column; text-align: center; }
+            .main-title { font-size: 2rem; }
+            .main-nav { justify-content: center; flex-wrap: wrap; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .list-header .date-col, .item-date { display: none; }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9975952999842017"
-     crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="loading">
         <div class="loading-spinner"></div>
         <div class="loading-text">VIVARFA VIP MUSIC</div>
-        <div id="loading-subtext" class="loading-subtext">Tu Ritmo, Tu Estilo, Tu Música...</div>
+        <div id="loading-subtext" class="loading-subtext">Cargando tu ritmo...</div>
     </div>
-    <div id="timer-modal" class="hidden">
-        <div class="loading-text">Tu descarga comenzará en...</div>
-        <div id="countdown"></div>
-        <div class="loading-subtext">Mientras esperas, puedes ver los anuncios.</div>
-    </div>
+
+    <a href="https://wa.me/51917776934?text=Hola!%20Quisiera%20consultar%20más%20información%20sobre%20VIVARFA%20VIP%20MUSIC" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+        <div class="whatsapp-tooltip">¿Consultas? Contáctanos</div>
+    </a>
+
     <div class="page-wrapper">
-        <!-- ===================================== -->
-        <!--        ANUNCIO LATERAL IZQUIERDO      -->
-        <!-- ===================================== -->
-        <div class="ad-sidebar">
+        <!-- ANUNCIO LATERAL IZQUIERDO -->
+        <aside class="ad-sidebar">
             <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-9975952999842017"
-                 data-ad-slot="TU_SLOT_LATERAL_IZQUIERDO"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        </div>
+                style="display:block"
+                data-ad-client="ca-pub-9975952999842017"
+                data-ad-slot="1164237347" <!-- CAMBIA ESTE SLOT POR EL DE TU BANNER IZQUIERDO -->
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </aside>
 
         <main class="main-content">
             <header class="header">
                 <div class="brand-section">
-                    <a class="logo-container" onclick="loadRootFolders(); return false;" title="Volver al inicio de los packs">
+                    <a class="logo-container" onclick="loadRootFolders(); return false;" title="Volver al inicio">
                         <img src="vivarfa.png" alt="VIVARFA Logo" class="logo-img">
                     </a>
                     <div>
                         <a href="https://www.vivarfa.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
                             <h1 class="main-title">VIVARFA VIP MUSIC</h1>
                         </a>
+                        <p class="subtitle">Packs Free Exclusivos</p>
                     </div>
                 </div>
-                <a href="https://www.vivarfa.com/membresias" target="_blank" rel="noopener noreferrer" class="btn-premium">
-                    <i class="fas fa-crown"></i> Comprar Membresía
-                </a>
+                <nav class="main-nav">
+                    <a href="https://www.vivarfa.com" target="_blank" class="nav-button primary"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="https://www.vivarfa.com/membresias" target="_blank" class="nav-button premium"><i class="fas fa-crown"></i> Adquirir Membresía</a>
+                    <a href="https://www.vivarfa.com/tienda/backups" target="_blank" class="nav-button secondary"><i class="fas fa-shopping-cart"></i> Ver Packs, Backups y Más</a>
+                </nav>
             </header>
 
-            <h2 id="page-title" class="text-3xl font-bold mb-8 text-center"></h2>
-
-            <div id="controls-bar">
-                <button id="back-button"><i class="fas fa-arrow-left"></i> Volver</button>
-                <a id="download-all-btn" target="_blank"><i class="fas fa-archive"></i> Descargar Pack Completo</a>
+            <div class="controls-section">
+                <h3 class="section-title">Pack Gratis Todos Los Meses</h3>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="Buscar packs, archivos o contenido...">
+                </div>
+                <div class="filters-row">
+                    <div class="flex items-center gap-4">
+                        <div class="filter-group">
+                            <label for="type-filter" class="text-sm text-gray-400">Tipo:</label>
+                            <select id="type-filter" class="filter-select">
+                                <option value="all">Todos</option>
+                                <option value="folder">Carpetas</option>
+                                <option value="audio">Audio</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="sort-filter" class="text-sm text-gray-400">Ordenar:</label>
+                            <select id="sort-filter" class="filter-select">
+                                <option value="name">Nombre A-Z</option>
+                                <option value="name-desc">Nombre Z-A</option>
+                                <option value="date">Más reciente</option>
+                                <option value="date-desc">Más antiguo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <ul id="folder-list" class="item-list"></ul>
-            <ul id="file-list" class="item-list" style="display: none;"></ul>
+
+            <div class="stats-bar">
+                <div class="stats-item"><div class="stats-value" id="total-items">0</div><div class="stats-label">Total Items</div></div>
+                <div class="stats-item"><div class="stats-value" id="packs-count">0</div><div class="stats-label">Carpetas</div></div>
+                <div class="stats-item"><div class="stats-value" id="files-count">0</div><div class="stats-label">Archivos</div></div>
+                <div class="stats-item"><div class="stats-value" id="filtered-count">0</div><div class="stats-label">Mostrando</div></div>
+            </div>
+
+            <div class="nav-controls">
+                <div id="breadcrumb" class="breadcrumb"></div>
+                <a id="download-all-btn" class="download-all-btn" target="_blank">
+                    <i class="fas fa-download"></i> Descargar Pack Completo
+                </a>
+            </div>
+
+            <div id="list-header" class="list-header">
+                <span>Nombre</span>
+                <span class="date-col">Última Modificación</span>
+            </div>
+
+            <div id="content-list" class="content-list"></div>
+
+            <div id="empty-state" class="empty-state">
+                <i class="fas fa-search fa-3x" style="margin-bottom: 1rem;"></i>
+                <h3>No se encontraron resultados</h3>
+            </div>
         </main>
-        
-        <!-- ===================================== -->
-        <!--        ANUNCIO LATERAL DERECHO        -->
-        <!-- ===================================== -->
-        <div class="ad-sidebar">
-             <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-9975952999842017"
-                 data-ad-slot="TU_SLOT_LATERAL_DERECHO"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        </div>
+
+        <!-- ANUNCIO LATERAL DERECHO -->
+        <aside class="ad-sidebar">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-9975952999842017"
+                data-ad-slot="1164237347" <!-- CAMBIA ESTE SLOT POR EL DE TU BANNER DERECHO -->
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </aside>
     </div>
 
     <script>
         const apiUrl = 'https://script.google.com/macros/s/AKfycbxoykeSAThO3q36tta49-BGU1fbDpD1eHw6v0HltNuUwAoADjCXYp8JRy4FXyx_l-eg/exec';
         const rootFolderId = "1ZTgkPuwUQBbt1Dor409S5zh2E_7jj90q";
-        const loadingMessages = [ "Tu pasaporte directo al éxito musical.", "Impulsando tu talento al máximo.", "Donde la calidad se encuentra con la pasión.", "Tu mejor fuente de audio y video.", "Elevando cada uno de tus sets de DJ.", "Creando el futuro del sonido profesional hoy.", "Tu destino premium para música y visuales.", "Descubre el verdadero poder musical.", "Acceso ilimitado a un universo de ritmos.", "Para DJs y VJs.", "Mezcla sin límites con el contenido free.", "Diseñado para DJs y VJs.", "Para los profesionales que exigen lo mejor.", "DJs y VJs de élite nos eligen siempre.", "Contenido y Calidad.", "Calidad de estudio al alcance de tus manos.", "Membresías y Beneficios.", "Packs Gratis.", "Packs Free.", "Packs Free esperando por ti.", "Tu Sonido Maestro.", "La Música Que Necesitas.", "Eleva Tu Arte.", "Ritmo y Visión.", "Poder Ilimitado.", "El Futuro del Audio.", "Tu Esencia Musical.", "Calidad Inigualable.", "Domina la Pista.", "Pura Potencia.", "La Élite del Sonido.", "Aquí Empieza Todo.", "Tu Fuente Exclusiva.", "Vibra Con Nosotros.", "Simplemente Lo Mejor.", "Pistas Que Hacen Vibrar.", "El Arsenal del DJ.", "Mezcla Sin Frenos.", "Sets Legendarios.", "Dominando La Mezcla.", "Audio Top.", "Para El DJ De Verdad.", "Impulsa Tus Sesiones.", "Libera Tu Creatividad.", "Visuales Impactantes.", "La Visión Perfecta.", "Video de Élite.", "Ilumina Tu Escenario.", "Crea Atmósferas.", "Experiencias Visuales.", "El Poder Visual.", "Imágenes Que Conectan.", "Tu Lienzo Digital.", "Vibrando con Imágenes.", "Audio y Video Sin Límites.", "Ritmo y Visual.", "Sonido y Luz.", "Tu Dúo Perfecto.", "La Fusión Ideal.", "Experiencias Completas.", "Audio + Visual.", "Todo lo que Necesitas.", "Completa Tu Show.", "El Combo Ganador.", "¡Packs Gratis Disponibles!", "Descarga Tu Pack Gratis.", "Packs Gratis Aquí.", "Tu Pack Gratis Ahora.", "Packs Free para Ti.", "Pruébanos Gratis.", "Empieza con Packs Free.", "Tu Regalo Gratuito.", "Packs Free Exclusivos.", "Descarga Tus Free Packs.", "Gratis Para Empezar.", "Tu Muestra Gratis.", "Packs Free Incluidos.", "¡Con Pack de Regalo!", "Packs Free al Instante.", "Tu Primer Pack Gratuito.", "Obtén Tu Free Pack.", "Packs Gratis, Siempre.", "Los Mejores Free Packs." ];
-        const loadingDiv = document.getElementById('loading');
-        const loadingSubtext = document.getElementById('loading-subtext');
-        const folderList = document.getElementById('folder-list');
-        const fileList = document.getElementById('file-list');
-        const pageTitle = document.getElementById('page-title');
-        const backButton = document.getElementById('back-button');
-        const downloadAllBtn = document.getElementById('download-all-btn');
-        let folderHistory = [];
-        let currentFolderId = rootFolderId;
+        const loadingMessages = [ "Tu pasaporte directo al éxito musical.", "Impulsando tu talento al máximo.", "Donde la calidad se encuentra con la pasión.", "Tu mejor fuente de audio y video.", "Elevando cada uno de tus sets de DJ.", "Creando el futuro del sonido profesional hoy.", "Tu destino premium para música y visuales.", "Descubre el verdadero poder musical.", "Acceso ilimitado a un universo de ritmos.", "Para DJs y VJs.", "Mezcla sin límites con el contenido free.", "Diseñado para DJs y VJs.", "Para los profesionales que exigen lo mejor.", "DJs y VJs de élite nos eligen siempre.", "Contenido y Calidad.", "Calidad de estudio al alcance de tus manos.", "Membresías y Beneficios.", "Packs Gratis.", "Packs Free.", "Packs Free esperando por ti.", "Tu Sonido Maestro.", "La Música Que Necesitas.", "Eleva Tu Arte.", "Ritmo y Visión.", "Poder Ilimitado.", "El Futuro del Audio.", "Tu Esencia Musical.", "Calidad Inigualable.", "Domina la Pista.", "Pura Potencia.", "La Élite del Sonido.", "Aquí Empieza Todo.", "Tu Fuente Exclusiva.", "Vibra Con Nosotros.", "Simplemente Lo Mejor.", "Pistas Que Hacen Vibrar.", "El Arsenal del DJ.", "Mezcla Sin Frenos.", "Sets Legendarios.", "Dominando La Mezcla.", "Audio Top.", "Para El DJ De Verdad.", "Impulsa Tus Sesiones.", "Libera Tu Creatividad.", "Visuales Impactantes.", "La Visión Perfecta.", "Video de Élite.", "Ilumina Tu Escenario.", "Crea Atmósferas.", "Experiencias Visuales.", "El Poder Visual.", "Imágenes Que Conectan.", "Tu Lienzo Digital.", "Vibrando con Imágenes.", "Audio y Video Sin Límites.", "Ritmo y Visual.", "Sonido y Luz.", "Tu Dúo Perfecto.", "La Fusión Ideal.", "Experiencias Completas.", "Audio + Visual.", "Todo lo que Necesitas.", "Completa Tu Show.", "El Combo Ganador.", "¡Packs Gratis Disponibles!", "Descarga Tu Pack Gratis.", "Packs Gratis Aquí.", "Tu Pack Gratis Ahora.", "Packs Free para Ti.", "Pruébanos Gratis.", "Empieza con Packs Free.", "Tu Regalo Gratuito.", "Packs Free Exclusivos.", "Descarga Tus Free Packs.", "Gratis Para Empezar.", "Tu Muestra Gratis.", "Packs Free Incluidos.", "¡Con Pack de Regalo!", "Packs Free al Instante.", "Tu Primer Pack Gratuito.", "Obtén Tu Free Pack.", "Packs Gratis, Siempre.", "Los Mejores Free Packs."];
+        let currentData = [], filteredData = [], folderHistory = [];
+        let currentFolder = { id: rootFolderId, name: "Packs Free Exclusivos" };
+
+        const ui = {
+            loading: document.getElementById('loading'),
+            loadingSubtext: document.getElementById('loading-subtext'),
+            list: document.getElementById('content-list'),
+            header: document.getElementById('list-header'),
+            emptyState: document.getElementById('empty-state'),
+            searchInput: document.getElementById('search-input'),
+            typeFilter: document.getElementById('type-filter'),
+            sortFilter: document.getElementById('sort-filter'),
+            downloadAllBtn: document.getElementById('download-all-btn'),
+            breadcrumb: document.getElementById('breadcrumb'),
+            stats: {
+                total: document.getElementById('total-items'),
+                packs: document.getElementById('packs-count'),
+                files: document.getElementById('files-count'),
+                filtered: document.getElementById('filtered-count')
+            }
+        };
+
         function getRandomMessage() { return loadingMessages[Math.floor(Math.random() * loadingMessages.length)]; }
-        function simpleHash(str) { let hash = 0; for (let i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash &= hash; } return Math.abs(hash); }
-        function generatePackGradient(name) { const h = simpleHash(name); return `linear-gradient(135deg, hsl(${(h%360)}, 60%, 25%) 0%, hsl(${(h+120)%360}, 60%, 35%) 100%)`; }
-        async function loadView(folderId, folderName, isNavigating) {
-            if (isNavigating) { showLoading(true); }
+        function showLoading(show) {
+            if(show) ui.loadingSubtext.textContent = getRandomMessage();
+            ui.loading.style.opacity = show ? '1' : '0';
+            ui.loading.style.pointerEvents = show ? 'all' : 'none';
+        }
+
+        const animateCounter = (el, end) => {
+            const start = parseInt(el.textContent) || 0;
+            if (start === end) return;
+            const duration = 400;
+            let startTime = null;
+            
+            const step = (currentTime) => {
+                if (!startTime) startTime = currentTime;
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                el.textContent = Math.floor(progress * (end - start) + start);
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        function applyFilters() {
+            const searchTerm = ui.searchInput.value.toLowerCase(), typeValue = ui.typeFilter.value, sortValue = ui.sortFilter.value;
+            animateCounter(ui.stats.filtered, filteredData.length);
+            filteredData = currentData.filter(item => (item.name.toLowerCase().includes(searchTerm)) && (typeValue === 'all' || (typeValue === 'folder' && item.type === 'folder') || (typeValue === 'audio' && item.type === 'file' && item.fileType === 'audio') || (typeValue === 'video' && item.type === 'file' && item.fileType === 'video')));
+            filteredData.sort((a, b) => {
+                switch (sortValue) {
+                    case 'name-desc': return b.name.localeCompare(a.name);
+                    case 'date': return new Date(b.dateModified || 0) - new Date(a.dateModified || 0);
+                    case 'date-desc': return new Date(a.dateModified || 0) - new Date(b.dateModified || 0);
+                    default: return a.name.localeCompare(b.name);
+                }
+            });
+            renderContent();
+        }
+
+        function renderContent() {
+            ui.list.innerHTML = '';
+            const hasResults = filteredData.length > 0;
+            ui.emptyState.classList.toggle('visible', !hasResults);
+            ui.header.style.opacity = hasResults ? '1' : '0';
+            filteredData.forEach((item, index) => {
+                const itemElement = createListItem(item);
+                itemElement.style.animationDelay = `${index * 40}ms`;
+                ui.list.appendChild(itemElement);
+            });
+        }
+
+        function createListItem(item) {
+            const isFolder = item.type === 'folder';
+            const element = document.createElement('div');
+            element.className = 'list-item' + (isFolder ? ' folder-item' : '');
+            if (isFolder) element.onclick = () => handleFolderClick(item.id, item.name);
+            
+            let iconHTML;
+            if(isFolder) {
+                iconHTML = `<span class="item-icon-wrapper"><i class="fas fa-folder icon-closed"></i><i class="fas fa-folder-open icon-opened"></i></span>`;
+            } else {
+                const iconClass = item.fileType === 'audio' ? 'fa-music icon-music' : 'fa-video';
+                iconHTML = `<span class="item-icon-wrapper"><i class="fas ${iconClass} item-icon"></i></span>`;
+            }
+
+            const metaText = isFolder ? 'Carpeta' : (item.size ? formatFileSize(item.size) : item.fileType);
+            const dateText = item.dateModified ? new Date(item.dateModified).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+            let actionsHTML = `<div class="item-date">${dateText}</div>`;
+            if (!isFolder) actionsHTML += `<a href="${item.fileUrl}" class="download-btn-item" download target="_blank" onclick="event.stopPropagation();" title="Descargar archivo"><i class="fas fa-download"></i></a>`;
+
+            element.innerHTML = `<div class="item-info">${iconHTML}<div class="item-details"><div class="name">${item.name}</div><div class="meta">${metaText}</div></div></div><div class="item-actions">${actionsHTML}</div>`;
+            return element;
+        }
+
+        function handleFolderClick(folderId, folderName) {
+            folderHistory.push(currentFolder);
+            loadView({ id: folderId, name: folderName });
+        }
+
+        async function loadView(folder) {
+            showLoading(true);
+            currentFolder = folder;
             try {
-                const url = folderId === rootFolderId ? apiUrl : `${apiUrl}?folderId=${folderId}`;
+                const url = folder.id === rootFolderId ? apiUrl : `${apiUrl}?folderId=${folder.id}`;
                 const response = await fetch(url);
                 const data = await response.json();
-                if (data.status === 'success') { currentFolderId = folderId; updateUI(data, folderName); } 
-                else { alert('Error al cargar: ' + data.message); }
-            } catch (error) { console.error('Error de conexión:', error); alert('Error de conexión con el servidor.');
-            } finally { if (isNavigating) { setTimeout(() => showLoading(false), 500); } }
+                if (data.status === 'success') {
+                    currentData = data.items || [];
+                    updateUI(data);
+                    applyFilters();
+                } else { alert('Error al cargar: ' + data.message); }
+            } catch (error) { console.error('Error de conexión:', error); } 
+            finally { setTimeout(() => showLoading(false), 300); }
         }
-        function loadRootFolders() { folderHistory = []; loadView(rootFolderId, "Packs Free Todas Las Semanas", true); }
-        function handleFolderClick(folderId, folderName) { folderHistory.push({ id: currentFolderId, name: pageTitle.textContent }); loadView(folderId, folderName, true); }
-        function goBack() { if (folderHistory.length === 0) return; const previous = folderHistory.pop(); loadView(previous.id, previous.name, true); }
-        function updateUI(data, folderName) {
-            pageTitle.textContent = folderName;
-            folderList.innerHTML = '';
-            fileList.innerHTML = '';
-            folderList.style.display = 'grid';
-            fileList.style.display = 'none';
-            folderList.style.opacity = 0;
-            fileList.style.opacity = 0;
-            const folders = data.items.filter(item => item.type === 'folder');
-            const files = data.items.filter(item => item.type === 'file');
-            if (folders.length > 0) {
-                folderList.style.display = 'grid';
-                folders.sort((a, b) => a.name.localeCompare(b.name)).forEach((folder, i) => {
-                    const li = document.createElement('li');
-                    li.className = 'list-item folder-item';
-                    li.style.setProperty('--i', i + 1);
-                    li.style.background = generatePackGradient(folder.name);
-                    li.onclick = () => handleFolderClick(folder.id, folder.name);
-                    li.innerHTML = `<div class="folder-content"><div class="icon"><i class="fas fa-compact-disc"></i></div><div class="name">${folder.name}</div><div class="details">Abrir Pack</div></div>`;
-                    folderList.appendChild(li);
-                });
-            } else { folderList.style.display = 'none'; }
-            if (files.length > 0) {
-                 fileList.style.display = 'grid';
-                 files.sort((a, b) => a.name.localeCompare(b.name)).forEach(file => {
-                    const li = document.createElement('li');
-                    li.className = 'list-item file-item';
-                    const iconClass = file.fileType === 'audio' ? 'fa-music' : (file.fileType === 'video' ? 'fa-video' : 'fa-file-alt');
-                    li.innerHTML = `<i class="fas ${iconClass} icon"></i><div class="name">${file.name}</div><a href="${file.fileUrl}" class="download-btn" download><i class="fas fa-download"></i> Descargar</a>`;
-                    fileList.appendChild(li);
-                });
-            } else { fileList.style.display = 'none'; }
-            if (folders.length === 0 && files.length === 0) {
-                fileList.style.display = 'grid';
-                fileList.innerHTML = '<li class="list-item file-item" style="justify-content:center; cursor: default;">Este pack no contiene archivos ni carpetas.</li>';
-            }
-            setTimeout(() => { folderList.style.opacity = 1; fileList.style.opacity = 1; }, 50);
-            backButton.style.display = folderHistory.length > 0 ? 'block' : 'none';
-            downloadAllBtn.style.display = currentFolderId !== rootFolderId ? 'block' : 'none';
-            downloadAllBtn.href = `https://drive.google.com/drive/folders/${data.currentFolderId}`;
+        
+        function navigateToHistory(index) {
+            const targetFolder = folderHistory[index];
+            folderHistory.splice(index);
+            loadView(targetFolder);
         }
-        function showLoading(show) { if (show) { loadingSubtext.textContent = getRandomMessage(); loadingDiv.classList.remove('hidden'); } else { loadingDiv.classList.add('hidden'); } }
-        document.addEventListener('DOMContentLoaded', () => { loadRootFolders(); });
-        backButton.addEventListener('click', goBack);
+
+        function renderBreadcrumbs() {
+            ui.breadcrumb.innerHTML = '';
+            const homeItem = document.createElement('span');
+            homeItem.className = 'breadcrumb-item';
+            homeItem.innerHTML = `<a onclick="loadRootFolders()"><i class="fas fa-home"></i> Inicio</a>`;
+            ui.breadcrumb.appendChild(homeItem);
+            folderHistory.forEach((folder, index) => {
+                ui.breadcrumb.innerHTML += `<span class="breadcrumb-separator" style="margin: 0 0.25rem;">></span><span class="breadcrumb-item"><a onclick="navigateToHistory(${index})">${folder.name}</a></span>`;
+            });
+            if (currentFolder.id !== rootFolderId) ui.breadcrumb.innerHTML += `<span class="breadcrumb-separator" style="margin: 0 0.25rem;">></span><span class="breadcrumb-current">${currentFolder.name}</span>`;
+        }
+
+        function updateUI(data) {
+            renderBreadcrumbs();
+            const hasFiles = currentData.some(item => item.type === 'file');
+            ui.downloadAllBtn.classList.toggle('visible', currentFolder.id !== rootFolderId && hasFiles);
+            if (data.currentFolderId) ui.downloadAllBtn.href = `https://drive.google.com/drive/folders/${data.currentFolderId}`;
+            ui.searchInput.value = '';
+            ui.typeFilter.value = 'all';
+            ui.sortFilter.value = 'name';
+            
+            animateCounter(ui.stats.total, currentData.length);
+            animateCounter(ui.stats.packs, currentData.filter(i=>i.type==='folder').length);
+            animateCounter(ui.stats.files, currentData.filter(i=>i.type==='file').length);
+        }
+
+        function loadRootFolders() {
+            folderHistory = [];
+            loadView({ id: rootFolderId, name: "Packs Free Exclusivos" });
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRootFolders();
+            ui.searchInput.addEventListener('input', applyFilters);
+            ui.typeFilter.addEventListener('change', applyFilters);
+            ui.sortFilter.addEventListener('change', applyFilters);
+        });
     </script>
 </body>
 </html>
